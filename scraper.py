@@ -3,16 +3,23 @@ import os
 import requests
 from uuid import uuid4
 
-def auth_request(): # Authorization required
-    client_id = '' # need to find better way to store this
-    state = str(uuid4())
-    redirect_uri = 'http://localhost:8080'
-    duration = 'temporary' # just for initial testing, need to change to permanent
-    scope = 'read'
+def make_request(subreddits=['buildapcsales','hardwareswap'], search_term='[USA-WA]', limit=10, sort='new'):  
+    """
+    Takes a string or list of strings for subreddits requested, defaulting to buildapcsales and hardwareswap.
+    Also takes in a string or list of strings for search term, defaulting to '[USA-WA]' for the US state of Washington, a limit
+    on the data requested and a sorting.
+    """
+    base_url = ''
 
-    auth_url = 'https://www.reddit.com/api/v1/authorize?client_id={}&response_type=code&state={}&redirect_uri={}&duration={}&scope={}'.format(client_id,state,redirect_uri,duration,scope)
-    print(auth_url) # testing
-    # requests.get(auth_url)
+    for subreddit in subreddits:
+        base_url = 'https://www.reddit.com/r/{}/search.json?restrict_sr=1&q={}&limit={}&sort={}'.format(subreddit, search_term, limit, sort) 
+        try:
+            print(base_url)
+            API_request = requests.get(base_url)
+            print(API_request)
+        except Exception as e:
+            print('Could not complete request:{}'.format(e))
 
-if __name__ == '__main__'
-    auth_request()
+
+if __name__ == '__main__':
+    make_request()
