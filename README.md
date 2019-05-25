@@ -1,2 +1,2 @@
 # Reddit-Scraper
-Script that scrapes certain subreddits for chosen location and only shows posts that fit the area specification.
+Simple script that query's the Reddit API according to certain parameters and opens up the links that are returned. 
